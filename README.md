@@ -1,6 +1,6 @@
 # Admin.lua
-Admin.lua - good universal opensourced admin script.
+Admin.lua - good universal open-sourced admin script.
 
-If you found any bugs, please, dm User#2469 or send a message to @YooooAwesome on Roblox.
+If you have found any bugs or wish to add something, please, send a message to User#2469.
 
-"By using this script you are agreeing with..." - no.
+By using this script you are agreeing that you CAN use the parts of the main script for your own commercial reasons without crediting anybody.
