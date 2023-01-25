@@ -107,6 +107,7 @@ Commands.TextColor3 = Color3.fromRGB(0, 0, 0)
 Commands.TextSize = 18.000
 Commands.TextWrapped = true
 Commands.TextYAlignment = Enum.TextYAlignment.Top
+Commands.ZIndex = 2
 
 UICorner_3.CornerRadius = UDim.new(0.00999999978, 10)
 UICorner_3.Parent = Commands
