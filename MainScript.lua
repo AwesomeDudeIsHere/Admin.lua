@@ -302,6 +302,8 @@ local loadedtext = [[
 
 - Enjoy your use.
 - Contact User#2469 (@YooooAwesome on Roblox) if you have found any bugs.
+- Press the "," on your keyboard to start typing in commandbar, all commands start with the ",".
+- Usage of commands in chat is working too!
 
 ]]
 
