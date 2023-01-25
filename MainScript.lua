@@ -26,7 +26,7 @@ local cmdsinfo = [[
 ,re - Respawns your character.
 ,sounds - Plays all the sounds in workspace if possible.
 ,skinny - Makes you skinny - R15. Set your body type and height to maximum, all other settings to minimum.
-,joinmsg - Fake join message.
+,joinmsg - Fake join message. Selected person appears in it.
 
 ]]
 
