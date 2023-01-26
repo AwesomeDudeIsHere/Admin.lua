@@ -30,6 +30,7 @@ local cmdsinfo = [[
 ,joinmsg - Fake join message. Selected person appears in it.
 ,copychar - Copies the character of selected person.
 ,errorchat - Makes an error appear in the chat.
+,headpos - Makes your head's position broken.
 
 ]]
 
@@ -45,6 +46,7 @@ local cmdslist = [[
 ,joinmsg
 ,copychar
 ,errorchat
+,headpos
 ]]
 
 -- Instances:
@@ -322,6 +324,7 @@ local loadedtext = [[
 - Contact User#2469 (@YooooAwesome on Roblox) if you have found any bugs.
 - Press the "," on your keyboard to start typing in commandbar, all commands do start with the "," symbol.
 - Usage of commands in chat is working too!
+- Use ",cmds" to view all the commands.
 
 ]]
 
@@ -577,8 +580,7 @@ addcmd(",skinny", skinny_resize)
 
 local function joinmsg()
 	local sysmsg = "Your friend "..tname.." has joined the experience!"
-	local msg = "                                                                                                                                                 "..sysmsg
-
+	local msg = "                                                                                                                                                                    "..sysmsg
 	rs:FindFirstChild("DefaultChatSystemChatEvents").SayMessageRequest:FireServer(msg, "All")
 end
 
@@ -641,5 +643,24 @@ local function errorchat()
 end
 
 addcmd(",errorchat", errorchat)
+
+local function head_deattach()
+	local function reposition()
+		for i, v in pairs(plr.Character:GetDescendants()) do
+			if v:IsA("Vector3Value") and not v.Parent:IsA("BasePart") then
+				v:Destroy()
+			end
+		end
+
+		plr.Character.Humanoid:FindFirstChildOfClass("NumberValue"):Destroy()
+	end
+	
+	for x = 1, 6 do
+		reposition()
+		wait(0.5)
+	end
+end
+
+addcmd(",headpos", head_deattach)
 
 admin_loaded() -- Final function
