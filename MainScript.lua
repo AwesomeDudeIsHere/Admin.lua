@@ -7,6 +7,7 @@ local ws = game:GetService("Workspace")
 local runs = game:GetService("RunService")
 local rs = game:GetService("ReplicatedStorage")
 
+local NUL = "\0"
 local tname = "string"
 
 local funct = {}
@@ -27,6 +28,8 @@ local cmdsinfo = [[
 ,sounds - Plays all the sounds in workspace if possible.
 ,skinny - Makes you skinny - R15. Set your body type and height to maximum, all other settings to minimum.
 ,joinmsg - Fake join message. Selected person appears in it.
+,copychar - Copies the character of selected person.
+,errorchat - Makes an error appear in the chat.
 
 ]]
 
@@ -40,6 +43,8 @@ local cmdslist = [[
 ,sounds
 ,skinny
 ,joinmsg
+,copychar
+,errorchat
 ]]
 
 -- Instances:
@@ -49,12 +54,13 @@ local CMDSList = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local UICorner = Instance.new("UICorner")
 local UICorner_2 = Instance.new("UICorner")
-local Commands = Instance.new("TextLabel")
-local UICorner_3 = Instance.new("UICorner")
 local Decoration = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
 local LuaImage = Instance.new("ImageLabel")
 local Close = Instance.new("ImageButton")
+local UICorner_3 = Instance.new("UICorner")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local Commands = Instance.new("TextLabel")
 local UICorner_4 = Instance.new("UICorner")
 local CMDBar = Instance.new("Frame")
 local UICorner_5 = Instance.new("UICorner")
@@ -68,7 +74,7 @@ local Title_2 = Instance.new("TextLabel")
 --Properties:
 
 Adminlua.Name = "Admin.lua"
-Adminlua.Parent = game:WaitForChild("CoreGui")
+Adminlua.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 Adminlua.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Adminlua.ResetOnSpawn = false
 
@@ -94,23 +100,6 @@ UICorner.Parent = Title
 
 UICorner_2.CornerRadius = UDim.new(0.00999999978, 10)
 UICorner_2.Parent = CMDSList
-
-Commands.Name = "Commands"
-Commands.Parent = CMDSList
-Commands.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Commands.BackgroundTransparency = 1.000
-Commands.Position = UDim2.new(0, 0, 0.102941178, 0)
-Commands.Size = UDim2.new(0, 250, 0, 305)
-Commands.Font = Enum.Font.Code
-Commands.Text = cmdslist
-Commands.TextColor3 = Color3.fromRGB(0, 0, 0)
-Commands.TextSize = 18.000
-Commands.TextWrapped = true
-Commands.TextYAlignment = Enum.TextYAlignment.Top
-Commands.ZIndex = 2
-
-UICorner_3.CornerRadius = UDim.new(0.00999999978, 10)
-UICorner_3.Parent = Commands
 
 Decoration.Name = "Decoration"
 Decoration.Parent = CMDSList
@@ -142,8 +131,35 @@ Close.Size = UDim2.new(0, 15, 0, 15)
 Close.ImageColor3 = Color3.fromRGB(185, 40, 40)
 Close.ImageTransparency = 1.000
 
-UICorner_4.CornerRadius = UDim.new(1, 100)
-UICorner_4.Parent = Close
+UICorner_3.CornerRadius = UDim.new(1, 100)
+UICorner_3.Parent = Close
+
+ScrollingFrame.Parent = CMDSList
+ScrollingFrame.Active = true
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollingFrame.BackgroundTransparency = 1.000
+ScrollingFrame.BorderSizePixel = 0
+ScrollingFrame.Position = UDim2.new(0, 0, 0.100000001, 0)
+ScrollingFrame.Size = UDim2.new(0, 250, 0, 305)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 1.5, 0)
+ScrollingFrame.ScrollBarThickness = 5
+ScrollingFrame.ScrollBarImageColor3 = Color3.fromRGB(59, 59, 59)
+
+Commands.Name = "Commands"
+Commands.Parent = ScrollingFrame
+Commands.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Commands.BackgroundTransparency = 1.000
+Commands.Size = UDim2.new(0, 250, 0, 505)
+Commands.ZIndex = 2
+Commands.Font = Enum.Font.Code
+Commands.Text = cmdslist
+Commands.TextColor3 = Color3.fromRGB(0, 0, 0)
+Commands.TextSize = 18.000
+Commands.TextWrapped = true
+Commands.TextYAlignment = Enum.TextYAlignment.Top
+
+UICorner_4.CornerRadius = UDim.new(0.00999999978, 10)
+UICorner_4.Parent = Commands
 
 CMDBar.Name = "CMDBar"
 CMDBar.Parent = Adminlua
@@ -160,6 +176,7 @@ TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TextBox.BackgroundTransparency = 1.000
 TextBox.BorderColor3 = Color3.fromRGB(27, 42, 53)
 TextBox.Size = UDim2.new(0, 200, 0, 35)
+TextBox.ClearTextOnFocus = false
 TextBox.Font = Enum.Font.Code
 TextBox.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 TextBox.PlaceholderText = "Run a command"
@@ -167,6 +184,7 @@ TextBox.Text = ""
 TextBox.TextColor3 = Color3.fromRGB(225, 225, 225)
 TextBox.TextSize = 16.000
 TextBox.TextTransparency = 1.000
+TextBox.ClearTextOnFocus = true
 
 UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(107, 102, 255)), ColorSequenceKeypoint.new(0.69, Color3.fromRGB(224, 215, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(243, 234, 255))}
 UIGradient_2.Parent = CMDBar
@@ -207,23 +225,23 @@ Title_2.TextSize = 16.000
 
 -- Scripts:
 
-local function TCHVDPA_fake_script() -- CMDSList.Drag 
+local function RHUIWZ_fake_script() -- CMDSList.Drag 
 	local script = Instance.new('LocalScript', CMDSList)
 
 	local UserInputService = game:GetService("UserInputService")
 	local runService = (game:GetService("RunService"));
-
+	
 	local gui = script.Parent
-
+	
 	local dragging
 	local dragInput
 	local dragStart
 	local startPos
-
+	
 	function Lerp(a, b, m)
 		return a + (b - a) * m
 	end;
-
+	
 	local lastMousePos
 	local lastGoalPos
 	local DRAG_SPEED = (8); -- // The speed of the UI darg.
@@ -233,21 +251,21 @@ local function TCHVDPA_fake_script() -- CMDSList.Drag
 			gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
 			return 
 		end;
-
+	
 		local delta = (lastMousePos - UserInputService:GetMouseLocation())
 		local xGoal = (startPos.X.Offset - delta.X);
 		local yGoal = (startPos.Y.Offset - delta.Y);
 		lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
 		gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
 	end;
-
+	
 	gui.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			dragging = true
 			dragStart = input.Position
 			startPos = gui.Position
 			lastMousePos = UserInputService:GetMouseLocation()
-
+	
 			input.Changed:Connect(function()
 				if input.UserInputState == Enum.UserInputState.End then
 					dragging = false
@@ -255,17 +273,17 @@ local function TCHVDPA_fake_script() -- CMDSList.Drag
 			end)
 		end
 	end)
-
+	
 	gui.InputChanged:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 			dragInput = input
 		end
 	end)
-
+	
 	runService.Heartbeat:Connect(Update)
 end
-coroutine.wrap(TCHVDPA_fake_script)()
-local function TLTUZIS_fake_script() -- CMDBar.LocalScript 
+coroutine.wrap(RHUIWZ_fake_script)()
+local function NGGBZDO_fake_script() -- CMDBar.LocalScript 
 	local script = Instance.new('LocalScript', CMDBar)
 
 	local TweenService = game:GetService("TweenService")
@@ -279,14 +297,14 @@ local function TLTUZIS_fake_script() -- CMDBar.LocalScript
 		false, -- Reverses (tween will reverse once reaching it's goal)
 		0 -- DelayTime
 	)
-
+	
 	local tween = TweenService:Create(cmdbar, tweenInfo, {BackgroundTransparency = 0})
 	local tween2 = TweenService:Create(textbox, tweenInfo, {TextTransparency = 0})
-
+	
 	tween:Play() -- Plays the tween
 	tween2:Play()
 end
-coroutine.wrap(TLTUZIS_fake_script)()
+coroutine.wrap(NGGBZDO_fake_script)()
 
 -- Main:
 
@@ -565,5 +583,63 @@ local function joinmsg()
 end
 
 addcmd(",joinmsg", joinmsg)
+
+local function copychar()
+	-- Copy character script.
+
+	local victim = tname
+	local aplr = plrs[victim]
+	local model = Instance.new("Model", workspace)
+	model.Name = aplr.Name.."_Clone"
+
+	-- Gets all of the Instances from your character and copies them to a model.
+
+	for i, v in pairs(aplr.Character:GetChildren()) do
+		clone = v:Clone()
+		clone.Parent = model
+		if clone:IsA("Tool") then
+			clone:Destroy()
+		end
+	end
+
+	-- Welds things together.
+
+	for i, v in pairs(model:GetDescendants()) do
+		if v:IsA("Motor6D") then
+			local motor = v
+		
+			local p0_str = tostring(motor.Part0)
+			local p1_str = tostring(motor.Part1)
+			
+			motor.Part0 = motor.Parent
+			motor.Part1 = model[p1_str]
+		elseif v:IsA("Weld") then
+			local weld = v
+		
+			local p0_str = tostring(weld.Part0)
+			local p1_str = tostring(weld.Part1)
+			
+			weld.Part0 = weld.Parent
+			weld.Part1 = model[p1_str]
+		end
+	end
+
+	print(aplr.Name.."'s character copy created!")
+end
+
+addcmd(",copychar", copychar)
+
+local function errorchat()
+	local args = {
+		[1] = "[ Admin.lua Chat Breaker ]"..NUL, -- Makes the chat to do an error.
+		[2] = "All"
+	}
+
+	for x = 1, 6 do
+		rs.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+	end
+end
+
+addcmd(",errorchat", errorchat)
 
 admin_loaded() -- Final function
