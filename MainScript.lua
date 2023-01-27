@@ -1,5 +1,5 @@
 --<< Admin.lua >>--
---<< Version 1.5 >>--
+--<< Version 1.7 >>--
 
 local plrs = game:GetService("Players")
 local plr = plrs.LocalPlayer
@@ -32,6 +32,7 @@ local cmdsinfo = [[
 ,errorchat - Makes an error appear in the chat.
 ,headpos - Makes your head's position broken - R15, RTHRO heads only, character scaling properties on maximum.
 ,goto - Teleports you to selected player's position.
+,chathax - Makes fake chat.
 
 ]]
 
@@ -49,9 +50,12 @@ local cmdslist = [[
 ,errorchat
 ,headpos
 ,goto
+,chathax
 ]]
 
 -- Instances:
+
+-- Main
 
 local Adminlua = Instance.new("ScreenGui")
 local CMDSList = Instance.new("Frame")
@@ -75,7 +79,26 @@ local UICorner_6 = Instance.new("UICorner")
 local NotifText = Instance.new("TextLabel")
 local Title_2 = Instance.new("TextLabel")
 
+-- ChatHax
+
+local CChatHax = Instance.new("Frame")
+local CTitle = Instance.new("TextLabel")
+local CUICorner = Instance.new("UICorner")
+local CUICorner_2 = Instance.new("UICorner")
+local CDecoration = Instance.new("Frame")
+local CUIGradient = Instance.new("UIGradient")
+local CClose = Instance.new("ImageButton")
+local CUICorner_3 = Instance.new("UICorner")
+local CSendMessage = Instance.new("TextButton")
+local CUICorner_4 = Instance.new("UICorner")
+local CNameBox = Instance.new("TextBox")
+local CUICorner_5 = Instance.new("UICorner")
+local CMessageBox = Instance.new("TextBox")
+local CUICorner_6 = Instance.new("UICorner")
+
 --Properties:
+
+-- Main
 
 Adminlua.Name = "Admin.lua"
 Adminlua.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -227,7 +250,111 @@ Title_2.Text = "Title"
 Title_2.TextColor3 = Color3.fromRGB(20, 140, 220)
 Title_2.TextSize = 16.000
 
+-- ChatHax
+
+CChatHax.Name = "ChatHax"
+CChatHax.Parent = Adminlua
+CChatHax.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+CChatHax.Position = UDim2.new(0.233211145, 0, 0.690505564, 0)
+CChatHax.Size = UDim2.new(0, 390, 0, 230)
+CChatHax.Visible = false
+
+CTitle.Name = "Title"
+CTitle.Parent = CChatHax
+CTitle.BackgroundColor3 = Color3.fromRGB(59, 59, 59)
+CTitle.Size = UDim2.new(0, 390, 0, 23)
+CTitle.Font = Enum.Font.Code
+CTitle.Text = "ChatHax.lua"
+CTitle.TextColor3 = Color3.fromRGB(24, 137, 186)
+CTitle.TextSize = 22.000
+CTitle.TextWrapped = true
+
+CUICorner.CornerRadius = UDim.new(0.00999999978, 10)
+CUICorner.Parent = CTitle
+
+CUICorner_2.CornerRadius = UDim.new(0.00999999978, 10)
+CUICorner_2.Parent = CChatHax
+
+CDecoration.Name = "Decoration"
+CDecoration.Parent = CChatHax
+CDecoration.BackgroundColor3 = Color3.fromRGB(59, 59, 59)
+CDecoration.BorderSizePixel = 0
+CDecoration.Position = UDim2.new(0, 0, 0.0549727716, 0)
+CDecoration.Size = UDim2.new(0, 390, 0, 11)
+CDecoration.ZIndex = 0
+
+CUIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(227, 227, 227)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(170, 170, 170))}
+CUIGradient.Rotation = 30
+CUIGradient.Parent = CChatHax
+
+CClose.Name = "Close"
+CClose.Parent = CChatHax
+CClose.BackgroundColor3 = Color3.fromRGB(185, 40, 40)
+CClose.BorderSizePixel = 0
+CClose.Position = UDim2.new(0.949999988, 0, 0.0199999996, 0)
+CClose.Size = UDim2.new(0, 15, 0, 15)
+CClose.ImageColor3 = Color3.fromRGB(185, 40, 40)
+CClose.ImageTransparency = 1.000
+
+CUICorner_3.CornerRadius = UDim.new(1, 100)
+CUICorner_3.Parent = CClose
+
+CSendMessage.Name = "SendMessage"
+CSendMessage.Parent = CChatHax
+CSendMessage.BackgroundColor3 = Color3.fromRGB(59, 59, 59)
+CSendMessage.Position = UDim2.new(0.243589744, 0, 0.734782636, 0)
+CSendMessage.Size = UDim2.new(0, 200, 0, 45)
+CSendMessage.Font = Enum.Font.Code
+CSendMessage.Text = "Send message"
+CSendMessage.TextColor3 = Color3.fromRGB(177, 177, 177)
+CSendMessage.TextSize = 18.000
+
+CUICorner_4.CornerRadius = UDim.new(0.00999999978, 10)
+CUICorner_4.Parent = CSendMessage
+
+CNameBox.Name = "NameBox"
+CNameBox.Parent = CChatHax
+CNameBox.BackgroundColor3 = Color3.fromRGB(91, 91, 91)
+CNameBox.Position = UDim2.new(0.0650000125, 0, 0.365000039, 0)
+CNameBox.Size = UDim2.new(0, 155, 0, 40)
+CNameBox.Font = Enum.Font.Code
+CNameBox.PlaceholderText = "Name"
+CNameBox.Text = ""
+CNameBox.TextColor3 = Color3.fromRGB(214, 214, 214)
+CNameBox.TextSize = 18.000
+CNameBox.TextWrapped = true
+
+CUICorner_5.CornerRadius = UDim.new(0.00999999978, 10)
+CUICorner_5.Parent = CNameBox
+
+CMessageBox.Name = "MessageBox"
+CMessageBox.Parent = CChatHax
+CMessageBox.BackgroundColor3 = Color3.fromRGB(91, 91, 91)
+CMessageBox.Position = UDim2.new(0.536000013, 0, 0.36500001, 0)
+CMessageBox.Size = UDim2.new(0, 155, 0, 40)
+CMessageBox.Font = Enum.Font.Code
+CMessageBox.PlaceholderText = "Message"
+CMessageBox.Text = ""
+CMessageBox.TextColor3 = Color3.fromRGB(214, 214, 214)
+CMessageBox.TextSize = 18.000
+CMessageBox.TextWrapped = true
+
+CUICorner_6.CornerRadius = UDim.new(0.00999999978, 10)
+CUICorner_6.Parent = CMessageBox
+
 -- Scripts:
+
+local function chathax_send()
+	local name = CNameBox.Text
+	local fakemsg = ""
+	local text = CMessageBox.Text
+
+	local msg = fakemsg.."                                                                                                                                                 ["..name.."]: "..text..""
+
+	rs.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+end
+
+CSendMessage.MouseButton1Down:Connect(chathax_send)
 
 local function RHUIWZ_fake_script() -- CMDSList.Drag 
 	local script = Instance.new('LocalScript', CMDSList)
@@ -310,6 +437,65 @@ local function NGGBZDO_fake_script() -- CMDBar.LocalScript
 end
 coroutine.wrap(NGGBZDO_fake_script)()
 
+local function PWNGG_fake_script() -- ChatHax.Drag 
+	local script = Instance.new('LocalScript', CChatHax)
+
+	local UserInputService = game:GetService("UserInputService")
+	local runService = (game:GetService("RunService"));
+	
+	local gui = script.Parent
+	
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+	
+	function Lerp(a, b, m)
+		return a + (b - a) * m
+	end;
+	
+	local lastMousePos
+	local lastGoalPos
+	local DRAG_SPEED = (8); -- // The speed of the UI darg.
+	function Update(dt)
+		if not (startPos) then return end;
+		if not (dragging) and (lastGoalPos) then
+			gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
+			return 
+		end;
+	
+		local delta = (lastMousePos - UserInputService:GetMouseLocation())
+		local xGoal = (startPos.X.Offset - delta.X);
+		local yGoal = (startPos.Y.Offset - delta.Y);
+		lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
+		gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+	end;
+	
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+			lastMousePos = UserInputService:GetMouseLocation()
+	
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	runService.Heartbeat:Connect(Update)
+end
+coroutine.wrap(PWNGG_fake_script)()
+
 -- Main:
 
 function execute(func)
@@ -350,6 +536,12 @@ local function closelist()
 end
 
 Close.MouseButton1Down:Connect(closelist)
+
+local function closechathax()
+	CChatHax.Visible = false
+end
+
+CClose.MouseButton1Down:Connect(closechathax)
 
 plr.Chatted:Connect(function(msg)
 	for i, v in pairs(cmdst) do
@@ -674,5 +866,11 @@ local function goto()
 end
 
 addcmd(",goto", goto)
+
+local function chathax()
+	CChatHax.Visible = true
+end
+
+addcmd(",chathax", chathax)
 
 admin_loaded() -- Final function
