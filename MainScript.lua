@@ -30,7 +30,8 @@ local cmdsinfo = [[
 ,joinmsg - Fake join message. Selected person appears in it.
 ,copychar - Copies the character of selected person.
 ,errorchat - Makes an error appear in the chat.
-,headpos - Makes your head's position broken.
+,headpos - Makes your head's position broken - R15, RTHRO heads only, character scaling properties on maximum.
+,goto - Teleports you to selected player's position.
 
 ]]
 
@@ -47,6 +48,7 @@ local cmdslist = [[
 ,copychar
 ,errorchat
 ,headpos
+,goto
 ]]
 
 -- Instances:
@@ -662,5 +664,15 @@ local function head_deattach()
 end
 
 addcmd(",headpos", head_deattach)
+
+local function goto()
+	local victim = plrs:FindFirstChild(tname)
+	local root = plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Torso")
+	local vroot = victim.Character:FindFirstChild("HumanoidRootPart") or victim.Character:FindFirstChild("Torso")
+	
+	root.CFrame = vroot.CFrame - Vector3.new(x, y, -3)
+end
+
+addcmd(",goto", goto)
 
 admin_loaded() -- Final function
