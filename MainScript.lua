@@ -604,8 +604,8 @@ local function bring()
 				for i, v in pairs(char:GetDescendants()) do
 					if v:IsA("Tool") then
 						pcall(function()
+							firetouchinterest(aplr.Character:FindFirstChild("Head"), v.Handle, 0)
 							firetouchinterest(aplr.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 0)
-							firetouchinterest(aplr.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 1)
 						end)
 					end
 				end
@@ -615,8 +615,8 @@ local function bring()
 		for i, v in pairs(char:GetDescendants()) do
 			if v:IsA("Tool") then
 				pcall(function()
+					firetouchinterest(victim.Character:FindFirstChild("Head"), v.Handle, 0)
 					firetouchinterest(victim.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 0)
-					firetouchinterest(victim.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 1)
 				end)
 			end
 		end
@@ -652,8 +652,8 @@ local function void()
 				for i, v in pairs(char:GetDescendants()) do
 					if v:IsA("Tool") then
 						pcall(function()
+							firetouchinterest(aplr.Character:FindFirstChild("Head"), v.Handle, 0)
 							firetouchinterest(aplr.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 0)
-							firetouchinterest(aplr.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 1)
 						end)
 					end
 				end
@@ -663,8 +663,8 @@ local function void()
 		for i, v in pairs(char:GetDescendants()) do
 			if v:IsA("Tool") then
 				pcall(function()
+					firetouchinterest(victim.Character:FindFirstChild("Head"), v.Handle, 0)
 					firetouchinterest(victim.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 0)
-					firetouchinterest(victim.Character:FindFirstChild("HumanoidRootPart"), v.Handle, 1)
 				end)
 			end
 		end
