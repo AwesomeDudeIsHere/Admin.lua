@@ -33,6 +33,8 @@ local cmdsinfo = [[
 ,headpos - Makes your head's position broken - R15, RTHRO heads only, character scaling properties on maximum.
 ,goto - Teleports you to selected player's position.
 ,chathax - Makes fake chat.
+,sit - Makes your character sit.
+,collidetools - Drops tools on the ground and makes them collide.
 
 ]]
 
@@ -51,6 +53,8 @@ local cmdslist = [[
 ,headpos
 ,goto
 ,chathax
+,sit
+,collidetools
 ]]
 
 -- Instances:
@@ -872,5 +876,39 @@ local function chathax()
 end
 
 addcmd(",chathax", chathax)
+
+local function sit()
+	local char = plr.Character
+	local hum = char:FindFirstChildOfClass("Humanoid")
+	
+	hum.Sit = true
+end
+
+addcmd(",sit", sit)
+
+local function collidetools()
+	local char = plr.Character
+	local bp = plr.Backpack
+	local rarm = char:FindFirstChild("Right Arm") or char:FindFirstChild("RightHand")
+
+	for i, v in pairs(bp:GetChildren()) do
+		if v:IsA("Tool") then
+			v.Parent = char
+			v.Parent = bp
+		end
+	end
+
+	rarm:Destroy()
+
+	wait(1)
+
+	for i, v in pairs(bp:GetChildren()) do
+		if v:IsA("Tool") then
+			v.Parent = char
+		end
+	end
+end
+
+addcmd(",collidetools", collidetools)
 
 admin_loaded() -- Final function
