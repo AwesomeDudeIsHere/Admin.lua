@@ -35,6 +35,7 @@ local cmdsinfo = [[
 ,chathax - Makes fake chat.
 ,sit - Makes your character sit.
 ,collidetools - Drops tools on the ground and makes them collide.
+,givehat - Gives a selected person one of your hats.
 
 ]]
 
@@ -55,6 +56,7 @@ local cmdslist = [[
 ,chathax
 ,sit
 ,collidetools
+,givehat
 ]]
 
 -- Instances:
@@ -910,5 +912,27 @@ local function collidetools()
 end
 
 addcmd(",collidetools", collidetools)
+
+local function givehat()
+	local char = plr.Character
+	local hum = char:FindFirstChildOfClass("Humanoid")
+	local victim = plrs:FindFirstChild(tname)
+
+	hum:Destroy()
+
+	for i, v in pairs(char:GetDescendants()) do
+		if v:IsA("BasePart") and v.Name ~= "Handle" then
+			v:Destroy()
+		end
+	end
+
+	wait(0.3)
+
+	pcall(function()
+		firetouchinterest(victim.Character:FindFirstChild("HumanoidRootPart"), char:FindFirstChildOfClass("Accessory").Handle, 0)
+	end)
+end
+
+addcmd(",givehat", givehat)
 
 admin_loaded() -- Final function
