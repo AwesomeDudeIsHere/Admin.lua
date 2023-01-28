@@ -36,6 +36,7 @@ local cmdsinfo = [[
 ,sit - Makes your character sit.
 ,collidetools - Drops tools on the ground and makes them collide.
 ,givehat - Gives a selected person one of your hats.
+,rngspoof - Randomly spoofs your player data. Bypasses some blacklist systems. Buggy, breaks the leaderboard on your client.
 
 ]]
 
@@ -57,6 +58,7 @@ local cmdslist = [[
 ,sit
 ,collidetools
 ,givehat
+,rngspoof
 ]]
 
 -- Instances:
@@ -917,6 +919,7 @@ local function givehat()
 	local char = plr.Character
 	local hum = char:FindFirstChildOfClass("Humanoid")
 	local victim = plrs:FindFirstChild(tname)
+	local hat = char:FindFirstChildOfClass("Accessory")
 
 	hum:Destroy()
 
@@ -926,13 +929,27 @@ local function givehat()
 		end
 	end
 
-	wait(0.3)
+	hat.Handle:WaitForChild("TouchInterest")
 
 	pcall(function()
-		firetouchinterest(victim.Character:FindFirstChild("HumanoidRootPart"), char:FindFirstChildOfClass("Accessory").Handle, 0)
+		firetouchinterest(victim.Character:FindFirstChild("Head"), hat.Handle, 0)
 	end)
 end
 
 addcmd(",givehat", givehat)
+
+local function rngspoof()
+	local Id = math.random(10000, 1000000000)
+	local name = plrs:GetNameFromUserIdAsync(Id)
+
+	plr.Name = name
+	plr.DisplayName = name
+	plr.UserId = Id
+	plr.Character.Name = name
+	plr.CharacterAppearanceId = Id
+	plr.CharacterAppearance = "https://api.roblox.com/v1.1/avatar-fetch/?placeId="..game.PlaceId.."&userId="..Id
+end
+
+addcmd(",rngspoof", rngspoof)
 
 admin_loaded() -- Final function
