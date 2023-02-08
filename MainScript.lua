@@ -37,6 +37,7 @@ local cmdsinfo = [[
 ,collidetools - Drops tools on the ground and makes them collide.
 ,givehat - Gives a selected person one of your hats.
 ,rngspoof - Randomly spoofs your player data. Bypasses some blacklist systems. Buggy, breaks the leaderboard on your client.
+,longleg - Makes your leg very long - R15.
 
 ]]
 
@@ -59,6 +60,7 @@ local cmdslist = [[
 ,collidetools
 ,givehat
 ,rngspoof
+,longleg
 ]]
 
 -- Instances:
@@ -951,5 +953,35 @@ local function rngspoof()
 end
 
 addcmd(",rngspoof", rngspoof)
+
+local function bigleg()
+	local char = plr.Character
+	local hum = char.Humanoid
+	local rll = char:FindFirstChild("RightLowerLeg")
+
+	for i, v in pairs(rll:GetChildren()) do
+		if v:IsA("Attachment")then
+			v:Destroy()
+		end
+	end
+
+	local function resize_leg()
+		for i, v in pairs(rll:GetChildren()) do
+			if v.Name == "OriginalSize" then
+				v:Destroy()
+				hum:FindFirstChildOfClass("NumberValue"):Destroy()
+			end
+		end
+	end
+
+	for x = 1, 6 do
+		resize_leg()
+		rll:WaitForChild("OriginalSize")
+	end
+
+	hum.HipHeight = 5
+end
+
+addcmd(",longleg", bigleg)
 
 admin_loaded() -- Final function
